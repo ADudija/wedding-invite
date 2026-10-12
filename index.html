@@ -24,8 +24,12 @@
   color-scheme:dark;
 }
 [hidden]{display:none!important}
-*{-webkit-tap-highlight-color:transparent}
-#gl{-webkit-user-select:none; user-select:none; -webkit-touch-callout:none; outline:none}
+*{-webkit-tap-highlight-color:rgba(0,0,0,0)!important}
+html,body,#gl{-webkit-user-select:none; user-select:none; -webkit-touch-callout:none}
+#gl,#gl:focus,#gl:active{outline:none!important; border:0}
+:focus:not(:focus-visible){outline:none}
+::selection{background:transparent}
+.panel ::selection,.hp ::selection{background:rgba(201,143,126,.35)}
 html,body{height:100%}
 body{margin:0; overflow:hidden; padding-inline:16px; background:var(--night); color:var(--porcelain); font-family:var(--f-ui);
   -webkit-font-smoothing:antialiased; user-select:none; -webkit-user-select:none}
@@ -939,7 +943,9 @@ const canHover = matchMedia("(hover: hover)").matches;
 if (!canHover) setText("introHint", "Prekni zarfin për ta hapur");
 function hitEnvelope(e){ if (!env || started || storyT < 10.6) return false; ndc.set(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1); ray.setFromCamera(ndc, camera); return ray.intersectObject(env, true).length > 0; }
 addEventListener("pointermove", e => { if (started){ if (endShown) $("#gl").style.cursor = hitCard(e) ? "pointer" : ""; return; } hovering = hitEnvelope(e); $("#gl").style.cursor = hovering ? "pointer" : ""; $("#intro").classList.toggle("hot", hovering); }, { passive: true });
-$("#gl").addEventListener("click", e => { if (!started && hitEnvelope(e)){ $("#gl").style.cursor = ""; play(true); } else if (!started) skipStory(); else if (hitCard(e)) closeInvite(); });
+$("#gl").addEventListener("pointerdown", e => { if (e.pointerType !== "mouse"){ try { getSelection().removeAllRanges(); } catch(_){} if (document.activeElement && document.activeElement !== document.body) document.activeElement.blur(); } });
+$("#gl").addEventListener("contextmenu", e => e.preventDefault());
+$("#gl").addEventListener("click", e => { try { getSelection().removeAllRanges(); } catch(_){} if (!started && hitEnvelope(e)){ $("#gl").style.cursor = ""; play(true); } else if (!started) skipStory(); else if (hitCard(e)) closeInvite(); });
 $("#skipStory").addEventListener("click", skipStory);
 addEventListener("keydown", e => { if (!started && env && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); play(true); } });
 $("#skip").addEventListener("click", skip);
