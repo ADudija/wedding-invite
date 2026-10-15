@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Enis &amp; Erisa ju ftojnë në dasmën e tyre · 12 mars 2027">
-<meta property="og:title" content="Enis &amp; Erisa · Ftesë dasme">
-<meta property="og:description" content="Ju ftojmë të ndani me ne gëzimin e dasmës · 12 mars 2027">
+<meta name="description" content="Eriselda &amp; Enis ju ftojnë në dasmën e tyre · 13 mars 2027">
+<meta property="og:title" content="Eriselda &amp; Enis · Ftesë dasme">
+<meta property="og:description" content="Ju ftojmë të ndani me ne gëzimin e dasmës · 13 mars 2027">
 <meta name="theme-color" content="#0a0810">
-<title>Enis &amp; Erisa · Ftesë dasme</title>
+<title>Eriselda &amp; Enis · Ftesë dasme</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Pinyon+Script&family=Geist:wght@300..600&family=Geist+Mono:wght@400;500&display=swap">
@@ -125,10 +125,10 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 .hp-foot{font-size:12.5px!important}
 @media (prefers-reduced-motion:reduce){.play{animation:none}.fade{transition:none}}
 </style>
+
 <style>[hidden]{display:none!important} img{max-width:100%}</style>
 </head>
 <body>
-
 
 <canvas id="gl" aria-hidden="true"></canvas>
 <div class="loading fade" id="loading">Po përgatitet ftesa juaj</div>
@@ -137,7 +137,7 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
 <div class="bottom fade" id="storyUI"><button class="link" id="skipStory" type="button">Kalo</button></div>
 <p class="intro fade gone" id="intro"><span id="introHint">Klikoni zarfin për ta hapur</span></p>
 
-<div class="corner l"><button class="link fade" style="font-size:9.5px;letter-spacing:.14em;opacity:.7" id="hostBtn" type="button">Lidhjet e të ftuarve</button></div>
+<div class="corner l"><button class="link fade" style="font-size:9.5px;letter-spacing:.14em;opacity:.7" id="hostBtn" type="button" hidden>Lidhjet e të ftuarve</button></div>
 <div class="corner r">
   <button class="icon fade gone" id="soundBtn" type="button" aria-label="Fik zërin">
     <svg id="icoOn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
@@ -154,7 +154,7 @@ button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px soli
   <article class="panel" aria-label="Detajet e dasmës">
     <header class="p-head">
       <span class="p-label">Së bashku me familjet e tyre</span>
-      <h1 class="p-names"><span id="pA">Enis</span> <em>&amp;</em> <span id="pB">Erisa</span></h1>
+      <h1 class="p-names"><span id="pA">Eriselda</span> <em>&amp;</em> <span id="pB">Enis</span></h1>
       <p class="p-date" id="pDate"></p>
     </header>
     <ol class="schedule" id="schedule"></ol>
@@ -190,18 +190,18 @@ Teze Lumja</textarea>
 <script>
 /* ================= Edit the couple's details here ================= */
 const CONFIG = {
-  nameA: "Enis",
-  nameB: "Erisa",
+  nameA: "Eriselda",
+  nameB: "Enis",
   initials: ["E", "E"],
-  dateISO: "2027-03-12T16:00:00",
-  dateShort: "12 · 03 · 2027",
-  dayName: "E premte",
-  dateMid: "12 mars 2027",
+  dateISO: "2027-03-13T16:00:00",
+  dateShort: "13 · 03 · 2027",
+  dayName: "E shtunë",
+  dateMid: "13 mars 2027",
   timeShort: "Ora 16:00",
-  dateLong: "E premte, 12 mars 2027",
+  dateLong: "E shtunë, 13 mars 2027",
   timeText: "ora 16:00",
-  stampDate: "12·III·27",
-  postmark: ["12 MAR", "2027"],
+  stampDate: "13·III·27",
+  postmark: ["13 MAR", "2027"],
   venue: "",        /* leave empty until the venue is confirmed */
   venueLine: "",
   coords: "",
@@ -394,33 +394,78 @@ function drawCouple(x, ox, oy, s, opt = {}){
   /* veil (behind the bride) */
   x.fillStyle = "rgba(255,252,248,.55)"; x.beginPath(); x.moveTo(400, 178); x.bezierCurveTo(470, 260, 520, 520, 540, 752); x.lineTo(430, 752); x.bezierCurveTo(440, 520, 430, 320, 392, 214); x.fill();
   }
+  const skin = opt.skin || "#f2c9a8", skinSh = "#dfa98a", feat = "#5b3a2e", cheek = "rgba(236,128,128,.38)";
+  const face = (cx, cy, r, dir, bride) => {
+    /* ears / neck shadow under the chin */
+    x.fillStyle = skinSh; x.beginPath(); x.ellipse(cx - dir * r * .92, cy + 4, r * .18, r * .26, 0, 0, 7); x.fill();
+    x.fillStyle = skin; x.beginPath(); x.ellipse(cx, cy, r * .9, r, 0, 0, 7); x.fill();
+    const fx = cx + dir * r * .16;
+    /* closed, smiling eyes */
+    x.strokeStyle = feat; x.lineWidth = 2.6;
+    [-1, 1].forEach(k => { const ex = fx + k * r * .34, ey = cy + r * .02; x.beginPath(); x.arc(ex, ey - r * .05, r * .15, Math.PI * .15, Math.PI * .85); x.stroke();
+      if (bride){ x.lineWidth = 1.8; x.beginPath(); x.moveTo(ex + k * r * .14, ey + r * .02); x.lineTo(ex + k * r * .22, ey - r * .03); x.stroke(); x.lineWidth = 2.6; } });
+    /* brows */
+    x.lineWidth = 2.2; [-1, 1].forEach(k => { const ex = fx + k * r * .34; x.beginPath(); x.moveTo(ex - r * .14, cy - r * .26); x.quadraticCurveTo(ex, cy - r * .34, ex + r * .14, cy - r * .27); x.stroke(); });
+    /* nose and smile */
+    x.lineWidth = 2; x.beginPath(); x.moveTo(fx + dir * r * .06, cy + r * .1); x.quadraticCurveTo(fx + dir * r * .16, cy + r * .26, fx + dir * r * .02, cy + r * .3); x.stroke();
+    x.strokeStyle = bride ? "#b4505f" : feat; x.lineWidth = 2.6; x.beginPath(); x.arc(fx, cy + r * .38, r * .2, Math.PI * .18, Math.PI * .82); x.stroke();
+    x.fillStyle = cheek; [-1, 1].forEach(k => { x.beginPath(); x.ellipse(fx + k * r * .52, cy + r * .28, r * .15, r * .1, 0, 0, 7); x.fill(); });
+  };
   if (on("groom")) {
   /* groom */
-  x.fillStyle = ink;
-  x.beginPath(); x.moveTo(205, 470); x.lineTo(232, 470); x.lineTo(230, 748); x.lineTo(207, 748); x.fill();
-  x.beginPath(); x.moveTo(238, 470); x.lineTo(266, 470); x.lineTo(263, 748); x.lineTo(240, 748); x.fill();
-  x.beginPath(); x.ellipse(213, 750, 20, 7, 0, 0, 7); x.fill(); x.beginPath(); x.ellipse(258, 750, 20, 7, 0, 0, 7); x.fill();
-  x.beginPath(); x.moveTo(184, 274); x.bezierCurveTo(206, 256, 258, 256, 282, 274); x.lineTo(276, 420); x.lineTo(272, 505); x.lineTo(236, 472); x.lineTo(198, 505); x.lineTo(192, 420); x.closePath(); x.fill();
-  x.fillRect(222, 228, 20, 36);
-  x.beginPath(); x.arc(232, 200, 40, 0, 7); x.fill();
-  x.strokeStyle = ink; x.lineWidth = 22; x.beginPath(); x.moveTo(276, 286); x.quadraticCurveTo(302, 352, 318, 424); x.stroke();
-  x.beginPath(); x.moveTo(190, 288); x.quadraticCurveTo(176, 360, 194, 432); x.stroke();
-  x.fillStyle = ivory; x.beginPath(); x.moveTo(218, 262); x.lineTo(246, 262); x.lineTo(232, 336); x.closePath(); x.fill();
-  x.fillStyle = gold; x.beginPath(); x.moveTo(232, 272); x.lineTo(218, 264); x.lineTo(218, 280); x.closePath(); x.moveTo(232, 272); x.lineTo(246, 264); x.lineTo(246, 280); x.closePath(); x.fill();
-  flower(262, 300, 5, blush);
+  const suit = ink, lapel = "rgba(255,255,255,.12)", hairG = "#2b1d18";
+  x.fillStyle = suit;
+  x.beginPath(); x.moveTo(204, 488); x.lineTo(234, 488); x.lineTo(231, 744); x.lineTo(208, 744); x.fill();
+  x.beginPath(); x.moveTo(236, 488); x.lineTo(266, 488); x.lineTo(262, 744); x.lineTo(239, 744); x.fill();
+  x.fillStyle = "#120b10"; x.beginPath(); x.ellipse(214, 750, 21, 8, 0, 0, 7); x.fill(); x.beginPath(); x.ellipse(258, 750, 21, 8, 0, 0, 7); x.fill();
+  /* neck */
+  x.fillStyle = skinSh; x.fillRect(220, 228, 24, 40);
+  /* jacket */
+  x.fillStyle = suit; x.beginPath(); x.moveTo(182, 280); x.bezierCurveTo(200, 258, 264, 258, 284, 280); x.lineTo(280, 420); x.lineTo(276, 512); x.lineTo(236, 486); x.lineTo(196, 512); x.lineTo(188, 420); x.closePath(); x.fill();
+  /* shirt and lapels */
+  x.fillStyle = ivory; x.beginPath(); x.moveTo(214, 262); x.lineTo(250, 262); x.lineTo(232, 352); x.closePath(); x.fill();
+  x.fillStyle = lapel; x.beginPath(); x.moveTo(212, 264); x.lineTo(232, 352); x.lineTo(206, 318); x.closePath(); x.fill(); x.beginPath(); x.moveTo(252, 264); x.lineTo(232, 352); x.lineTo(258, 318); x.closePath(); x.fill();
+  x.fillStyle = "rgba(255,255,255,.55)"; [374, 406].forEach(y => { x.beginPath(); x.arc(234, y, 3, 0, 7); x.fill(); });
+  /* bow tie */
+  x.fillStyle = gold; x.beginPath(); x.moveTo(232, 270); x.lineTo(216, 261); x.lineTo(216, 280); x.closePath(); x.moveTo(232, 270); x.lineTo(248, 261); x.lineTo(248, 280); x.closePath(); x.fill(); x.beginPath(); x.arc(232, 270, 4, 0, 7); x.fill();
+  flower(264, 304, 6, blush);
+  /* arms: sleeves, cuffs, hands */
+  x.strokeStyle = suit; x.lineWidth = 24; x.beginPath(); x.moveTo(276, 292); x.quadraticCurveTo(300, 352, 312, 416); x.stroke();
+  x.beginPath(); x.moveTo(190, 294); x.quadraticCurveTo(174, 364, 190, 428); x.stroke();
+  x.fillStyle = ivory; x.beginPath(); x.ellipse(313, 420, 11, 6, -.3, 0, 7); x.fill(); x.beginPath(); x.ellipse(190, 432, 11, 6, .2, 0, 7); x.fill();
+  x.fillStyle = skin; x.beginPath(); x.ellipse(192, 446, 10, 13, .1, 0, 7); x.fill();
+  /* head with hair (turned slightly toward the bride) */
+  face(234, 198, 40, 1, false);
+  x.fillStyle = hairG; x.beginPath(); x.moveTo(196, 196); x.bezierCurveTo(190, 150, 230, 140, 254, 150); x.bezierCurveTo(276, 158, 280, 178, 272, 196); x.bezierCurveTo(262, 178, 248, 172, 232, 176); x.bezierCurveTo(218, 166, 204, 178, 202, 200); x.closePath(); x.fill();
+  x.beginPath(); x.moveTo(232, 152); x.bezierCurveTo(244, 140, 262, 142, 266, 154); x.lineTo(236, 162); x.closePath(); x.fill();
   }
   if (on("bride")) {
   /* bride */
-  x.fillStyle = ivory; x.strokeStyle = gold; x.lineWidth = 2.6;
-  x.beginPath(); x.moveTo(350, 400); x.bezierCurveTo(340, 520, 300, 650, 280, 752); x.lineTo(512, 752); x.bezierCurveTo(470, 650, 410, 520, 396, 400); x.closePath(); x.fill(); x.stroke();
-  x.lineWidth = 1.4; [[362, 430, 330, 740], [378, 430, 384, 744], [388, 430, 446, 744]].forEach(([a, b, c, d]) => { x.beginPath(); x.moveTo(a, b); x.quadraticCurveTo((a + c) / 2 + 6, (b + d) / 2, c, d); x.stroke(); });
-  x.lineWidth = 2.6; x.beginPath(); x.moveTo(344, 274); x.quadraticCurveTo(372, 262, 400, 274); x.lineTo(396, 404); x.lineTo(350, 404); x.closePath(); x.fill(); x.stroke();
+  const hairB = "#3a241d";
+  /* skirt with soft shading */
+  const sk = x.createLinearGradient(280, 0, 512, 0); sk.addColorStop(0, "#efe4d6"); sk.addColorStop(.45, ivory); sk.addColorStop(1, "#ece0d0");
+  x.fillStyle = sk; x.strokeStyle = gold; x.lineWidth = 2.4;
+  x.beginPath(); x.moveTo(350, 400); x.bezierCurveTo(338, 520, 300, 650, 276, 752); x.quadraticCurveTo(394, 770, 516, 752); x.bezierCurveTo(472, 650, 410, 520, 396, 400); x.closePath(); x.fill(); x.stroke();
+  x.strokeStyle = "rgba(184,141,66,.55)"; x.lineWidth = 1.4; [[360, 430, 326, 742], [374, 430, 372, 748], [386, 430, 424, 748], [394, 430, 470, 744]].forEach(([a, b, c, d]) => { x.beginPath(); x.moveTo(a, b); x.quadraticCurveTo((a + c) / 2 + 6, (b + d) / 2, c, d); x.stroke(); });
+  /* neck, shoulders and arms in skin */
+  x.fillStyle = skinSh; x.fillRect(364, 230, 18, 44);
+  x.fillStyle = skin; x.beginPath(); x.moveTo(344, 282); x.quadraticCurveTo(372, 266, 402, 282); x.lineTo(398, 312); x.lineTo(348, 312); x.closePath(); x.fill();
+  x.strokeStyle = skin; x.lineWidth = 13; x.beginPath(); x.moveTo(348, 292); x.quadraticCurveTo(332, 362, 322, 424); x.stroke();
+  x.beginPath(); x.moveTo(398, 292); x.quadraticCurveTo(424, 358, 410, 424); x.stroke();
+  /* bodice with a sweetheart neckline */
+  x.fillStyle = ivory; x.strokeStyle = gold; x.lineWidth = 2.2;
+  x.beginPath(); x.moveTo(346, 300); x.quadraticCurveTo(358, 290, 372, 304); x.quadraticCurveTo(386, 290, 400, 300); x.lineTo(396, 404); x.lineTo(350, 404); x.closePath(); x.fill(); x.stroke();
   x.fillStyle = gold; x.fillRect(349, 396, 48, 7);
-  x.fillStyle = ink; x.fillRect(364, 232, 16, 40);
-  x.beginPath(); x.arc(372, 205, 36, 0, 7); x.fill(); x.beginPath(); x.arc(404, 186, 20, 0, 7); x.fill();
-  x.strokeStyle = ink; x.lineWidth = 15; x.beginPath(); x.moveTo(348, 288); x.quadraticCurveTo(332, 360, 322, 426); x.stroke();
-  x.beginPath(); x.moveTo(398, 288); x.quadraticCurveTo(424, 356, 410, 424); x.stroke();
-  x.fillStyle = ink; x.beginPath(); x.arc(320, 430, 12, 0, 7); x.fill();
+  /* clasped hands with the groom */
+  x.fillStyle = skin; x.beginPath(); x.ellipse(318, 430, 14, 12, -.4, 0, 7); x.fill();
+  x.strokeStyle = skinSh; x.lineWidth = 1.6; x.beginPath(); x.moveTo(310, 428); x.quadraticCurveTo(318, 436, 328, 432); x.stroke();
+  /* hair: back bun, then face, then front */
+  x.fillStyle = hairB; x.beginPath(); x.arc(404, 186, 22, 0, 7); x.fill();
+  x.beginPath(); x.ellipse(376, 206, 40, 42, 0, 0, 7); x.fill();
+  face(370, 210, 34, -1, true);
+  x.fillStyle = hairB; x.beginPath(); x.moveTo(336, 206); x.bezierCurveTo(334, 166, 372, 156, 396, 168); x.bezierCurveTo(410, 176, 412, 196, 406, 214); x.bezierCurveTo(396, 190, 378, 180, 356, 186); x.bezierCurveTo(346, 192, 340, 200, 340, 214); x.closePath(); x.fill();
+  /* small flowers in her hair */
+  flower(398, 172, 5, blush); flower(410, 182, 4, ivory);
   }
   if (on("bride")) {
   /* bouquet */
@@ -525,15 +570,15 @@ function drawInside(){
     k.font = 'italic 400 84px "Instrument Serif", serif'; center(k, `${CONFIG.initials[0]}&${CONFIG.initials[1]}`, 208); });
   D.ink(k => { for (let i = 0; i < 26; i++){ const a = Math.PI * .62 + i / 25 * Math.PI * 1.76, px = cx + Math.cos(a) * 112, py = 205 + Math.sin(a) * 112;
     k.save(); k.translate(px, py); k.rotate(a + (i % 2 ? .9 : 2.2)); k.fillStyle = i % 3 ? "#93a98d" : "#c79a8e"; k.beginPath(); k.moveTo(0, 0); k.quadraticCurveTo(13, -9, 26, 0); k.quadraticCurveTo(13, 9, 0, 0); k.fill(); k.restore(); } });
-  D.ink(k => { k.font = '500 30px "Geist Mono", monospace'; k.textBaseline = "middle"; spaced(k, "SË BASHKU ME FAMILJET E TYRE", cx, 372, 8); }, INK_SOFT);
+  D.ink(k => { k.font = '500 38px "Geist Mono", monospace'; k.textBaseline = "middle"; spaced(k, "SË BASHKU ME FAMILJET E TYRE", cx, 372, 7); }, INK_SOFT);
   const nameFont = s => `400 ${s}px "Instrument Serif", serif`;
   const fa = fitLines(x, CONFIG.nameA, nameFont, 1080, 1, 196, 100), fb = fitLines(x, CONFIG.nameB, nameFont, 1080, 1, 196, 100), ns = Math.min(fa.size, fb.size);
   D.ink(k => { k.font = nameFont(ns); center(k, CONFIG.nameA, 498); center(k, CONFIG.nameB, 752); });
   D.foil(k => { k.font = '400 150px "Pinyon Script", cursive'; center(k, "&", 628); });
-  D.ink(k => { k.font = 'italic 400 54px "Instrument Serif", serif'; center(k, "kanë nderin dhe kënaqësinë t’ju ftojnë", 862); center(k, "në festën e martesës së tyre", 926); }, "#4a3f52");
+  D.ink(k => { k.font = 'italic 400 64px "Instrument Serif", serif'; center(k, "kanë nderin dhe kënaqësinë t’ju ftojnë", 862); center(k, "në festën e martesës së tyre", 936); }, "#4a3f52");
   /* lower half */
   D.foil(k => { k.fillRect(170, 1066, 1076, 2); k.fillRect(170, 1196, 1076, 2); });
-  D.ink(k => { k.font = '500 28px "Geist Mono", monospace'; k.textBaseline = "middle"; spaced(k, CONFIG.dayName.toUpperCase(), 318, 1131, 6); spaced(k, CONFIG.timeShort.toUpperCase(), 1098, 1131, 6); }, INK_SOFT);
+  D.ink(k => { k.font = '500 40px "Geist Mono", monospace'; k.textBaseline = "middle"; spaced(k, CONFIG.dayName.toUpperCase(), 300, 1131, 4); spaced(k, CONFIG.timeShort.toUpperCase(), 1116, 1131, 4); }, INK_SOFT);
   D.ink(k => { const f = fitLines(x, CONFIG.dateMid, s => `400 ${s}px "Instrument Serif", serif`, 470, 1, 92, 50); k.font = `400 ${f.size}px "Instrument Serif", serif`; center(k, CONFIG.dateMid, 1133); });
   const hasVenue = !!CONFIG.venue, sh = hasVenue ? 0 : -150;
   if (hasVenue){
@@ -542,13 +587,13 @@ function drawInside(){
     if (CONFIG.coords) D.ink(k => { k.font = '500 25px "Geist Mono", monospace'; k.textBaseline = "middle"; spaced(k, CONFIG.coords, cx, 1416, 3); }, "#94604f");
   }
   diamondRule(D, cx, 1492 + sh, 160);
-  D.ink(k => { k.font = '500 30px "Geist Mono", monospace'; k.textBaseline = "middle"; spaced(k, "ME DASHURI PËR", cx, 1566 + sh, 10); }, INK_SOFT);
+  D.ink(k => { k.font = '500 38px "Geist Mono", monospace'; k.textBaseline = "middle"; spaced(k, "ME DASHURI PËR", cx, 1566 + sh, 9); }, INK_SOFT);
   /* guest name sits below its label, never over it */
   const gf = fitLines(x, guest.name, s => `400 ${s}px "Pinyon Script", cursive`, 1060, 2, hasVenue ? 124 : 146, 70);
   if (gf.lines.length > 1) gf.size = Math.min(gf.size, hasVenue ? 104 : 118);
   const lh = gf.size * 1.12, gy0 = 1566 + sh + 40 + gf.size * .78, gyEnd = gy0 + (gf.lines.length - 1) * lh;
   D.foil(k => { k.font = `400 ${gf.size}px "Pinyon Script", cursive`; gf.lines.forEach((l, i) => center(k, l, gy0 + i * lh)); });
-  if (guest.seats) D.ink(k => { k.font = '500 26px "Geist Mono", monospace'; k.textBaseline = "middle"; spaced(k, guest.seats > 1 ? `${guest.seats} VENDE TË REZERVUARA` : "1 VEND I REZERVUAR", cx, Math.min(1880, gyEnd + gf.size * .7 + 34), 6); }, INK_SOFT);
+  if (guest.seats) D.ink(k => { k.font = '500 36px "Geist Mono", monospace'; k.textBaseline = "middle"; spaced(k, guest.seats > 1 ? `${guest.seats} VENDE TË REZERVUARA` : "1 VEND I REZERVUAR", cx, Math.min(1880, gyEnd + gf.size * .7 + 34), 6); }, INK_SOFT);
   return D;
 }
 function drawAddress(){
@@ -885,11 +930,12 @@ function pose(t, time){
   if (started && dir > 0 && t >= 7.05 && burstAt < 0) burstAt = performance.now();
   burstMat.uniforms.uT.value = burstAt < 0 || dir < 0 ? -1 : (performance.now() - burstAt) / 1000;
   /* camera */
-  const dEnv = fit(EW * 1.22, EH * 1.95), dPlay = fit(EW * 1.22, EH * 1.6), dSlide = fit(EW * 1.25, (EH + CH + .6) * 1.25), dCard = fit(CW * 1.55, CH * 2 * 1.62);
+  const P = camera.aspect < .8, mw = P ? 1.12 : 1.22;
+  const dEnv = fit(EW * mw, EH * 1.95), dPlay = fit(EW * mw, EH * 1.6), dSlide = fit(EW * (P ? 1.08 : 1.25), (EH + CH + .6) * (P ? 1.1 : 1.25)), dCard = fit(CW * (P ? 1.08 : 1.55), CH * 2 * (P ? 1.12 : 1.62));
   const keys = [[0, dEnv, -.1], [1.6, dPlay, -.05], [3.6, dPlay, 0], [5.0, dSlide, .95], [7.4, dCard, .02], [END, dCard, -.12]];
   let d = keys[0][1], ly = keys[0][2];
   for (let i = 0; i < keys.length - 1; i++){ const [ta, da, ya] = keys[i], [tb, db, yb] = keys[i + 1]; if (t >= ta){ const k = eio(seg(t, ta, tb)); d = lerp(da, db, k); ly = lerp(ya, yb, k); } }
-  if (!started){ const dS = fit(2.7, 3.7), k = eio(seg(storyT, 9.3, 11)); d = lerp(dS, d, k); ly = lerp(.1, ly, k); }
+  if (!started){ const dS = fit(camera.aspect < .8 ? 2.3 : 2.7, 3.7), k = eio(seg(storyT, 9.3, 11)); d = lerp(dS, d, k); ly = lerp(.1, ly, k); }
   camera.position.set(Math.sin(time * .21) * .12 + sm.x * .12, ly + .12 + Math.sin(time * .17) * .06, d);
   camera.lookAt(0, ly, 0);
 }
@@ -918,7 +964,7 @@ function loop(now){
 function play(withSound){
   if (withSound && !userMuted){ Sound.init(); Sound.setOn(true); Sound.startMusic(); }
   $("#soundBtn").classList.remove("gone"); syncSoundIcon();
-  $("#intro").classList.add("gone"); $("#storyUI").classList.add("gone"); $("#hostBtn").classList.add("gone"); hovering = false;
+  $("#intro").classList.add("gone"); $("#storyUI").classList.add("gone"); $("#hostBtn").classList.add("gone"); $("#storyCap").classList.remove("on"); hovering = false;
   startFilm();
 }
 function startFilm(){
